@@ -1,0 +1,27 @@
+<snippet>
+	<content><![CDATA[
+std::vector<int> dijkstra(int src, int n, vector<vpi> &g, vi &dis) {
+	priority_queue<pii, std::vector<pii>, greater<pii> > pq;
+ 
+	for(int i = 0; i <= n; i++) dis[i] = inf;
+	pq.push(mp(0, src));
+	dis[src] = 0;
+ 
+	while(!pq.empty()) {
+		int v = pq.top().S;
+		pq.pop();
+		for(auto u : g[v]) {
+			if(dis[u.F] > u.S + dis[v]) {
+				dis[u.F] = u.S+dis[v];
+				pq.push(mp(dis[u.F], u.F));
+			}
+		}
+	}
+	return dis;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Dijkstra</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

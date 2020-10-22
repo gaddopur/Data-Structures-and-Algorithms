@@ -1,0 +1,47 @@
+<snippet>
+	<content><![CDATA[
+// source: https://cp-algorithms.com/data_structures/fenwick.html
+struct FenwickTree {
+	std::vector<int> f;
+	int n;
+	FenwickTree(int _n) {
+		n = _n; f.resize(n+10);
+	}
+	void update_sum(int i, int x) {
+		while(i <= n) {
+			f[i] += x, i += i&(-i);
+		}
+	}
+	void update_sum(int l, int r, int x) {
+		update_sum(l, x),update_sum(r+1, -x);
+	}
+	void update_max(int i, int x) {
+		while(i <= n) {
+			f[i] = max(x, f[i]), i += i&(-i);
+		}
+	}
+	int Max(int i) {
+		int ans = 0;
+		while(i > 0) {
+			ans = max(f[i], ans), i -= i&(-i);
+		}
+		return ans;
+	}
+	int sum(int i) {
+		int ans = 0;
+		while(i > 0) {
+			ans += f[i], i -= i&(-i);
+		}
+		return ans;
+	}
+	int sum(int l, int r) {
+		return sum(r)-sum(l-1);
+	} 
+};
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>FenwickTree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,5 +1,6 @@
 <snippet>
 	<content><![CDATA[
+// resorce: https://cp-algorithms.com/data_structures/segment_tree.html
 struct SegNorm {
 	std::vector<int> t;
 	int s, e;
@@ -7,8 +8,8 @@ struct SegNorm {
 		s = 0, e = n-1; // want start from 1 set s = 1;
 		t.resize(n*4+1);
 	}
-	int combine(int x, int y) {
-		return x+y; // write your condition
+	inline int combine(int x, int y) {
+		return max(x, y); // write your condition
 	}
 	void build(int a[], int v, int tl, int tr) {
 	    if (tl == tr) t[v] = a[tl];
@@ -20,6 +21,7 @@ struct SegNorm {
 	    }
 	}
 	int query(int v, int tl, int tr, int l, int r) {
+		if(l > r) return 0;
 	    if (l == tl && r == tr) return t[v];
 	    int tm = (tl + tr) / 2;
 	    return combine(query(v*2, tl, tm, l, min(r, tm))
@@ -34,40 +36,45 @@ struct SegNorm {
 	        t[v] = combine(t[v*2], t[v*2+1]);
 	    }
 	}
-	int last(int v, int tl, int tr, int l, int r) {
-	    if(t[v] == 0) return -1;// write your condition
+	int last(int v, int tl, int tr, int l, int r, int x) {
+		if(l > r) return -1;
+	    if(t[v] < x) return -1;// write your condition
 	    if (tr == tl) return tl;
 	    int tm = (tl + tr) / 2;
-	    int ll = last(v*2+1, tm+1, tr, max(l, tm+1), r);
+	    int ll = last(v*2+1, tm+1, tr, max(l, tm+1), r, x);
 	    if(ll != -1) return ll;
-	    return last(v*2, tl, tm, l, min(r, tm));
+	    return last(v*2, tl, tm, l, min(r, tm), x);
 	}
-	int first(int v, int tl, int tr, int l, int r) {
-	    if(t[v] == 0) return -1; // write your condition 
+	int first(int v, int tl, int tr, int l, int r, int x) {
+		if(l > r) return e+1;
+	    if(t[v] < x) return e+1; // write your condition 
 	    if (tr == tl) return tl;
 	    int tm = (tl + tr) / 2;
-	    int ll = first(v*2, tl, tm, l, min(r, tm));
-	    if(ll != -1) return ll;
-	    return first(v*2+1, tm+1, tr, max(l, tm+1), r);
+	    int ll = first(v*2, tl, tm, l, min(r, tm), x);
+	    if(ll != e+1) return ll;
+	    return first(v*2+1, tm+1, tr, max(l, tm+1), r, x);
 	}
 	int query(int l, int r) {
 		if(l > r) return 0; // write your own
 		assert(l >= s && r <= e);
 		return query(1, s, e, l, r); // 0 base indexing
 	}
-	int last(int l, int r) {
+	int last(int l, int r, int x) {
 		if(l > r) return -1; // write your own
 		assert(l >= s && r <= e);
-		return last(1, s, e, l, r); // 0 base indexing
+		return last(1, s, e, l, r, x); // 0 base indexing
 	}
-	int first(int l, int r) {
-		if(l > r) return -1; // write your own
+	int first(int l, int r, int x) {
+		if(l > r) return e+1; // write your own
 		assert(l >= s && r <= e);
-		return first(1, s, e, l, r); // 0 base indexing
+		return first(1, s, e, l, r, x); // 0 base indexing
 	}
 	void update(int pos, int x) {
 		assert(pos >= s && pos <= e);
 		update(1, s, e, pos, x);// 0 base indexing
+	}
+	void build(int a[]) {
+		build(a, 1, s, e);
 	}
 };
 

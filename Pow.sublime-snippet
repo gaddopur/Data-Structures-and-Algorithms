@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+int Pow(int x, int p=M-2) { 
+	x %= M;
+	int ans = 1;
+	while(p) {
+		if(p&1)ans = (ans*x)%M;
+		x = (x*x)%M;
+		p >>= 1;
+	}
+	return ans;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Pow</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

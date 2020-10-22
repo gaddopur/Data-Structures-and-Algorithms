@@ -1,0 +1,88 @@
+<snippet>
+	<content><![CDATA[
+template<const int MOD>
+struct mint{
+	int x;
+	mint(){x = 0;}
+	mint(const mint<MOD>* z){x = z->x;}
+	mint(const mint<MOD>& z){x = z.x;}
+	template<typename T>mint(const T z){x = (z%MOD);if (x < 0) x += MOD; 	}
+	
+
+	int value() const{ return x;}
+
+	mint operator - (const mint<MOD>& m) const{
+		mint<MOD> U; U.x = x - m.x; if (U.x < 0) U.x += MOD; return U;
+	}
+	mint operator + (const mint<MOD>& m) const{
+		mint<MOD> U; U.x = x + m.x; if (U.x >= MOD) U.x -= MOD; return U;
+	}
+	mint& operator -= (const mint<MOD>& m){
+		x -= m.x; if (x < 0) x += MOD; return *this;
+	}	
+	mint& operator += (const mint<MOD>& m){
+		x += m.x; if (x >= MOD) x -= MOD; return *this;
+	}	
+	mint operator * (const mint<MOD>& m) const{
+		mint<MOD> U; U.x = (x* 1ull * m.x) %MOD; return U;
+	}
+	mint& operator *= (const mint<MOD>& m){
+		x = (x * 1ull * m.x)%MOD; return *this;
+	}
+	mint operator ^ (long long p) const{
+		assert(p >= 0);
+		mint<MOD> a = *this, res = 1;
+        while(p>0){if(p&1)res *= a; a *= a; p >>= 1;}
+        return res;
+	}
+	mint& operator ^= (long long p) {
+		return (*this) = (*this)^p;
+	}
+	mint inv() const {
+        int g = MOD, r = x, xx = 0, yy = 1;
+        while (r != 0) {
+            int q = g / r;
+            g %= r; swap(g, r);
+            xx -= q * yy; swap(xx, yy);
+        }
+        return mint(xx);
+    }
+    mint operator / (const mint<MOD>& m) const {
+		mint<MOD> U(this);
+		U *= m.inv();
+		return U;
+	}
+	mint& operator /= (const mint<MOD>& m){
+		(*this) *= m.inv();
+		return *this;
+	}
+	template<typename T>friend mint operator + (const T &l, const mint<MOD>& p){return (mint<MOD>(l) + p);}
+	template<typename T>friend mint operator - (const T &l, const mint<MOD>& p){return (mint<MOD>(l) - p);}
+	template<typename T>friend mint operator * (const T &l, const mint<MOD>& p){return (mint<MOD>(l) * p);}
+	template<typename T>friend mint operator / (const T &l, const mint<MOD>& p){return (mint<MOD>(l) / p);}
+	
+	bool operator==(const mint<MOD>& m) const{return x == m.x;}
+ 	template<typename T>bool operator == (const T& m) const{return (*this)== (mint<MOD>(m));}
+ 	bool operator < (const mint<MOD>& m) const{return x < m.x;}
+ 	template<typename T>bool operator < (const T& m) const{return (*this) < (mint<MOD>(m));}
+ 	template<typename T>bool operator > (const T& m) const{return (*this) > (mint<MOD>(m));}
+ 	template<typename T> friend bool operator == (const T& x, const mint<MOD>& m) {return (mint<MOD>(x)).x == m.x;}
+	template<typename T> friend bool operator < (const T& x, const mint<MOD>& m){ return (mint<MOD>(x)).x < m.x;}
+	template<typename T> friend bool operator > (const T& x, const mint<MOD>& m){return (mint<MOD>(x)).x > m.x;}
+	
+	friend istream& operator >> (istream& is, mint<MOD>& p){
+		int64_t val;
+		is >> val;
+		p.x = (val%MOD);
+		if (p.x < 0) p.x += MOD;
+		return is;
+	}
+	friend ostream& operator << (ostream& os, const mint<MOD>& p) {return os<<p.x;}
+};
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>mint</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

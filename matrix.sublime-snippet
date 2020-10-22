@@ -1,0 +1,165 @@
+<snippet>
+	<content><![CDATA[
+template<typename T, const int N, const int M>
+struct Matrix {
+	T mtx[N][M];
+
+	Matrix() {
+		memset(mtx, 0, sizeof mtx);
+	}
+	Matrix(vector<vector<T> > _mtx){
+		assert(_mtx.size() == N && _mtx[0].size() == M);
+		for(int i = 0; i < N; i++)
+			for(int j = 0; j < M; j++) {
+				mtx[i][j] = _mtx[i][j];
+			} 
+	}
+	Matrix(const T _mtx[][M]){
+		for(int i = 0; i < N; i++)
+			for(int j = 0; j < M; j++) {
+				mtx[i][j] = _mtx[i][j];
+			} 
+	}
+	Matrix(const Matrix<T,N,M> &_mtx) {
+		for(int i = 0; i < N; i++)
+			for(int j = 0; j < M; j++) {
+				mtx[i][j] = _mtx.mtx[i][j];
+			} 
+	}
+	inline void clear(){
+		memset(mtx, 0, sizeof(mtx));
+	}
+	inline void identity(){
+		assert(N == M);
+		for(int i = 0; i < N; ++i)
+			for(int j = 0; j < M; ++j) 
+				mtx[i][j] = (i == j) ? 1 : 0;
+	}
+	Matrix operator + (const Matrix<T,N,M>& m) const {
+		Matrix<T,N,M> ans;
+		for(int i = 0; i < N; ++i)
+			for(int j = 0; j < M; ++j)
+				ans.mtx[i][j] = mtx[i][j] + m.mtx[i][j];
+		return ans;
+	}
+	Matrix operator - (const Matrix<T,N,M>& m) const {
+		Matrix<T,N,M> ans;
+		for(int i = 0; i < N; ++i)
+			for(int j = 0; j < M; ++j)
+				ans.mtx[i][j] = mtx[i][j] - m.mtx[i][j];
+		return ans;
+	}
+	template<const int L>
+	Matrix<T,N,L> operator * (const Matrix<T,M,L> m) {
+		Matrix<T,N,L> ans;
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j < L; j++) {
+				for(int k = 0; k < M; k++) {
+					ans.mtx[i][j] += mtx[i][k]*m.mtx[k][j];
+				}
+			}
+		}
+		return ans;
+	}
+	Matrix& operator += (const Matrix<T,N,M>& m) {
+		for(int i = 0; i < N; ++i)
+			for(int j = 0; j < M; ++j)
+				mtx[i][j] += m.mtx[i][j];
+		return *this;
+	}
+	Matrix& operator -= (const Matrix<T,N,M>& m) {
+		for(int i = 0; i < N; ++i)
+			for(int j = 0; j < M; ++j)
+				mtx[i][j] -= m.mtx[i][j];
+		return *this;
+	}
+	Matrix& operator *= (const Matrix<T,M,M>& m) {
+		Matrix<T,N,M> c;
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j < M; j++) {
+				for(int k = 0; k < M; k++) {
+					c.mtx[i][j] += mtx[i][k]*m.mtx[k][j];
+				}
+			}
+		}
+		for(int i = 0; i < N; ++i)
+			for(int j = 0; j < M; ++j)
+				mtx[i][j] = c.mtx[i][j];
+		return (*this);
+	}
+	Matrix operator ^ (long long p) const {
+		assert( N == M );
+		Matrix<T,N,M> ans, mul(*this);
+		ans.identity();
+		while( p > 0 ){
+			if (p & 1)
+				ans *= mul;
+			mul *= mul;
+			p >>= 1;
+		}
+		return ans;
+	}
+	Matrix& operator ^= (long long p) {
+		assert( N == M );
+		Matrix<T,N,M> mul(*this);
+		identity();
+		while( p > 0 ){
+			if (p & 1)
+				(*this) *= mul;
+			mul *= mul;
+			p >>= 1;
+		}
+		return *this;
+	}
+	Matrix<T,M,N> transpose() const {
+		assert( N == M );
+		Matrix<T,M,N> ans;
+		for(int i = 0; i < N; ++i)
+			for(int j = 0; j < M; ++j)
+				ans.mtx[j][i] = mtx[i][j];
+		return ans; 
+	}
+	void self_transpose(){
+		assert( N == M );
+		for(int i = 0; i < N; ++i)
+			for(int j = 0; j < i; ++j)
+				swap(mtx[i][j],mtx[j][i]);
+	}
+	bool operator == (const Matrix other) const{
+		for(int i = 0; i < N; ++i)
+			for(int j = 0; j < M; ++j)
+				if (mtx[i][j] != other.mtx[i][j]) 
+					return false;
+		return true;
+	}
+	bool operator != (const Matrix other) const{
+		for(int i = 0; i < N; ++i)
+			for(int j = 0; j < M; ++j)
+				if (mtx[i][j] == other.mtx[i][j]) 
+					return false;
+		return true;
+	}
+	friend ostream& operator << (ostream& os, const Matrix<T,N,M> & p) {
+		for(int i = 0; i < N; ++i){
+			for(int j = 0; j < M; ++j){
+				os << p.mtx[i][j] << " ";
+			}
+			os << '\n';
+		}
+		return os;
+	}
+	friend istream& operator >> (istream& in, Matrix<T,N,M> & p) {
+		for(int i = 0; i < N; ++i){
+			for(int j = 0; j < M; ++j){
+				in >> p.mtx[i][j];
+			}
+		}
+		return in;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>matrix</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
