@@ -1,0 +1,52 @@
+<snippet>
+	<content><![CDATA[
+// 0-base indexing be carefull when use 1 base indexing
+struct SparseTable { 
+	static int log[N];
+	int n, K;
+	vector<vi> st;
+	SparseTable(int _n, int _f): n(_n), K(log[n]) {
+		st.resize(K+1);
+		for(int i = 0; i <= K; i++)
+			st[i].resize(n+1);
+	}
+	static void init() {
+		for(int i = 2; i < N; i++) 
+			log[i] = log[i/2] + 1;
+	}
+	inline int combine(int x, int y) {
+		return max(x, y);
+	}
+	void build(int a[]) {
+		for(int i = 0; i < n; i++) {
+			st[0][i] = a[i];
+		}
+		for(int i = 1; i <= K; i++) {
+			for(int j = 0; j < n; j++) 
+				st[i][j] = combine(st[i-1][j], st[i-1][j + (1<<(i-1))]);
+		}
+	}
+	int query(int l, int r) {
+		int j = log[r-l+1];
+		return combine(st[j][l], st[j][r-(1<<j)+1]);
+	}
+	int sum(int l, int r) {
+		int ans = 0;
+		for(int i = K; i >= 0; i--) {
+			if(l+(1<<i) <= r+1) {
+				ans += st[i][l];
+				l += (1<<i);
+			}
+		} 
+		return ans;
+	}
+};
+int SparseTable::log[N];   
+
+SparseTable::init(); // write this in main   
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sparseTable</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

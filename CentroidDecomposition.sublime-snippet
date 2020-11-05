@@ -1,0 +1,59 @@
+<snippet>
+	<content><![CDATA[
+struct CentroidDecomposition{
+	int n, r, cen;
+	std::vector<std::vector<int> > g, par;
+	std::vector<bool> used;
+	std::vector<int> cenPar, siz;
+
+	CentroidDecomposition(int _n) : n(_n){
+		r = cen = -1;
+		g.resize(n+2);
+		used.resize(n+2);
+		siz.resize(n+2);
+		cenPar.resize(n+2, -1);
+	}
+	void addEdge(int a, int b) {
+		g[a].pb(b);
+		g[b].pb(a);
+	}
+	void subSiz(int v, int p) {
+		siz[v] = 1;
+		for(auto u : g[v]) {
+			if(u != p && used[u] == 0) {
+				subSiz(u, v);
+				siz[v] += siz[u];
+			}
+		}
+	}
+	void findCentre(int v, int p, int tot) {
+		bool f = (tot-siz[v]) > tot/2;
+		for(auto u : g[v]) {
+			if(u != p && used[u] == 0) 
+				f |= (siz[u] > tot/2);
+		}
+		if(!f){cen = v; return;}
+		for(auto u : g[v]) {
+			if(u != p && used[u] == 0)
+				findCentre(u, v, tot);
+		}
+	}
+	void decompose(int v, int p) {
+		subSiz(v, p);
+		findCentre(v, p, siz[v]);
+		v = cen, used[v] = 1, cenPar[v] = p;
+		if(p == -1)r = v;
+		for(auto u : g[v]) {
+			if(used[u] == 0)decompose(u, v);
+		}
+	}
+	int up(int v) {
+		return cenPar[v];
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>CentroidDecomposition</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

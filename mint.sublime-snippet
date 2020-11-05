@@ -80,6 +80,9 @@ struct mint{
 	friend ostream& operator << (ostream& os, const mint<MOD>& p) {return os<<p.x;}
 };
 
+const int M = 1e9+7;
+typedef mint<M>      Mint;
+
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>mint</tabTrigger>

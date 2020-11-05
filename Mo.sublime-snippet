@@ -1,0 +1,55 @@
+<snippet>
+	<content><![CDATA[
+const int B = 200;
+ 
+struct Query {
+    int l, r, idx;
+    Query(int _l, int _r, int _idx):l(_l), r(_r), idx(_idx) {}
+    bool operator < (Query other) const{
+	    if (l / B != other.l / B)
+	        return l < other.l;
+	    return (l / B & 1) ? (r < other.r) : (r > other.r);
+	}
+};
+
+void add(int i) {
+	
+}
+void remove(int i) {
+	
+}
+int get_answer(int i) {
+	
+}
+    vector<Query> queries;
+	sort(queries.begin(), queries.end());
+ 
+ 	// indexing start from 1 if you want from 0 set cur_l = 0, cur_r = -1
+    int cur_l = 1; 
+    int cur_r = 0;
+    for (Query q : queries) {
+    	if(ans[q.idx]) continue;
+        while (cur_l > q.l) {
+            cur_l--;
+            add(cur_l);
+        }
+        while (cur_r < q.r) {
+            cur_r++;
+            add(cur_r);
+        }
+        while (cur_l < q.l) {
+            remove(cur_l);
+            cur_l++;
+        }
+        while (cur_r > q.r) {
+            remove(cur_r);
+            cur_r--;
+        }
+        ans[q.idx] = get_answer(q.idx);
+    }
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Mo</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

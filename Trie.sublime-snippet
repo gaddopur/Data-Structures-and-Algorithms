@@ -1,0 +1,74 @@
+<snippet>
+	<content><![CDATA[
+struct node {
+	int cnt;
+	node *bit[2];
+
+	node() {
+		bit[0] = bit[1] = NULL;
+		cnt = 0;
+	}
+};
+
+struct Trie{
+	node *root;
+	int tot[20];
+	Trie() {
+		memset(tot, 0, sizeof tot);
+		root = new node;
+	}
+	void add(int num, int n) {
+		node *cur = root;
+		for(int i = 0; i < n; i++) {
+			bool j = ((num>>i)&1);
+			tot[i] += j;
+			if(cur->bit[j] == NULL) {
+				cur->bit[j] = new node;
+			}
+			cur->cnt++;
+			cur = cur->bit[j];
+		}
+		cur->cnt++;
+	}
+	void add_one(int n) {
+		node *cur = root;
+		for(int i = 0; i < n; i++) {
+			if(cur == NULL) break;
+			int cnt = 0;
+			if(cur->bit[0])cnt += cur->bit[0]->cnt;
+			if(cur->bit[1])cnt -= cur->bit[1]->cnt;
+			tot[i] += cnt;
+			swap(cur->bit[0], cur->bit[1]);
+			cur = cur->bit[0];
+		}
+	}
+	int Xor(int n) {
+		int ans = 0;
+		for(int j = 0; j < n; j++) {
+			ans += (1<<j) * (tot[j]%2);
+		}
+		return ans;
+	}
+	void print(node *cur, int ans, int j) {
+		if(j == 5) {
+			int tim = cur->cnt;
+			while(tim--)cout << ans << " ";
+		}
+		if(cur->bit[1] != NULL) {
+			print(cur->bit[1], ans+(1<<j), j+1);
+		}
+		if(cur->bit[0] != NULL) {
+			print(cur->bit[0], ans, j+1);
+		}
+	}
+	void print() {
+		print(root, 0, 0);
+		cout << endl;
+	}
+}T;.
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Trie</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
