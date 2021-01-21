@@ -1,0 +1,416 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"A",
+				"AddEdge"
+			],
+			[
+				"do",
+				"double"
+			],
+			[
+				"pri",
+				"prim"
+			],
+			[
+				"ch",
+				"chek"
+			],
+			[
+				"rm",
+				"rmn"
+			],
+			[
+				"re",
+				"return"
+			],
+			[
+				"o",
+				"obj_val"
+			],
+			[
+				"u",
+				"uu"
+			],
+			[
+				"dfs",
+				"dfs_dsu"
+			],
+			[
+				"df",
+				"dfs_dsu"
+			],
+			[
+				"si",
+				"siz"
+			],
+			[
+				"en",
+				"end2"
+			],
+			[
+				"r",
+				"rbegin"
+			],
+			[
+				"p",
+				"push"
+			],
+			[
+				"od",
+				"oddSum"
+			],
+			[
+				"szie",
+				"sizeof"
+			],
+			[
+				"M",
+				"Mytmp\tMytmp"
+			],
+			[
+				"edn",
+				"endl"
+			],
+			[
+				"ed",
+				"edges"
+			],
+			[
+				"cp",
+				"comps"
+			],
+			[
+				"h",
+				"hw"
+			],
+			[
+				"e",
+				"eSum"
+			],
+			[
+				"ord",
+				"order_of_key"
+			],
+			[
+				"F",
+				"FenwickTree\tFenwickTree"
+			],
+			[
+				"q",
+				"query"
+			],
+			[
+				"SE",
+				"SegLazy\tSegLazy"
+			],
+			[
+				"cur",
+				"curmn"
+			],
+			[
+				"path",
+				"path2"
+			],
+			[
+				"pat",
+				"path2"
+			],
+			[
+				"me",
+				"merge"
+			],
+			[
+				"_",
+				"__gcd"
+			],
+			[
+				"ans",
+				"ans1"
+			],
+			[
+				"as",
+				"ans"
+			],
+			[
+				"de",
+				"debug"
+			],
+			[
+				"add",
+				"addy"
+			],
+			[
+				"sub",
+				"suby"
+			],
+			[
+				"a",
+				"addx"
+			],
+			[
+				"ad",
+				"addy"
+			],
+			[
+				"cru",
+				"curj"
+			],
+			[
+				"I",
+				"i"
+			],
+			[
+				"mid",
+				"mid-1"
+			],
+			[
+				"cl",
+				"clear"
+			],
+			[
+				"ifn",
+				"inf"
+			],
+			[
+				"end",
+				"endl"
+			],
+			[
+				"be",
+				"begin"
+			],
+			[
+				"ne",
+				"nez"
+			],
+			[
+				"Se",
+				"SegNorm\tSegNorm"
+			],
+			[
+				"str",
+				"string"
+			],
+			[
+				"eve",
+				"even2"
+			],
+			[
+				"ev",
+				"even2"
+			],
+			[
+				"cnt",
+				"cnt1"
+			],
+			[
+				"st",
+				"string"
+			],
+			[
+				"sp",
+				"sdp"
+			],
+			[
+				"s",
+				"sdp"
+			],
+			[
+				"t",
+				"two"
+			],
+			[
+				"qu",
+				"query_sum"
+			],
+			[
+				"size",
+				"sizeof"
+			],
+			[
+				"fi",
+				"first_mn"
+			],
+			[
+				"fin",
+				"find_clique"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/sa966/AppData/Roaming/Sublime Text 3/Packages/User/maxflow.sublime-snippet",
+		"/C/Users/sa966/AppData/Roaming/Sublime Text 3/Packages/User/mincostmaxflow.sublime-snippet",
+		"/C/Users/sa966/AppData/Roaming/Sublime Text 3/Packages/User/Mytmp.sublime-snippet",
+		"/C/Users/sa966/OneDrive/Documents/error.txt",
+		"/C/Users/sa966/AppData/Roaming/Sublime Text 3/Packages/User/SegLazy.sublime-snippet",
+		"/C/Users/sa966/AppData/Roaming/Sublime Text 3/Packages/User/Default.sublime-keymap",
+		"/C/Users/sa966/AppData/Roaming/Sublime Text 3/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/sa966/AppData/Roaming/Sublime Text 3/Packages/User/c++14.sublime-build"
+	],
+	"find":
+	{
+		"height": 32.0
+	},
+	"find_in_files":
+	{
+		"height": 113.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 32.0
+	},
+	"input":
+	{
+		"height": 44.8
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/c++14.sublime-build",
+	"project": "User.sublime-project",
+	"replace":
+	{
+		"height": 60.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

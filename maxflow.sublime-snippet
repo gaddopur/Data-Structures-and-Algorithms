@@ -1,0 +1,73 @@
+<snippet>
+	<content><![CDATA[
+struct MaxFlow{
+ 
+    struct Edge{
+        int f;
+        int u;
+        Edge* nex;
+        Edge* rev;
+        Edge(int _u, int _f, Edge *_nex):
+            f(_f), u(_u), nex(_nex) {
+        }
+    };
+    vector<Edge*> g;
+ 
+    MaxFlow(int n){
+        g.resize(n);
+    }
+ 
+    void AddEdge(int v, int u, int f){
+        g[v] = new Edge(u, f, g[v]);
+        g[u] = new Edge(v, 0, g[u]);
+        g[v]->rev = g[u];
+        g[u]->rev = g[v];
+    }
+ 
+    int Flow(int src, int sink, int n){
+        int flow = 0;
+
+        while(true){
+            vector<Edge*> par(n);
+            vector<bool> vis(n, false);
+            vector<int> mn(n, 0);
+            queue<int> q;
+ 
+            q.push(src);
+            vis[src] = 1;
+            mn[src] = inf;
+ 
+            while(!q.empty()){
+                int v = q.front();
+                q.pop();
+                for(Edge* e = g[v]; e ; e = e->nex){
+                    if(e->f <= 0)continue;
+                    if(!vis[e->u]){
+                        mn[e->u] = min(mn[v], e->f);
+                        par[e->u] = e;
+                        vis[e->u] = 1;
+                        q.push(e->u);
+                    }
+                }
+            }
+            if(mn[sink] == 0)
+                break;
+            int curr = sink;
+            int ff = mn[sink];
+            flow += ff;
+            while(curr != src){
+                Edge* e = par[curr];
+                e->f -= ff;
+                e->rev->f += ff;
+                curr = e->rev->u;
+            }
+        }
+        return flow;
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>MaxFlow</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -2,102 +2,103 @@
 	<content><![CDATA[
 // resorce: https://cp-algorithms.com/data_structures/segment_tree.html
 struct SegLazy {
-	std::vector<int> t;
-	std::vector<int> lazy;
-	int s, e;
-	SegLazy(int n) {
-		s = 0, e = n-1; // want start from 1 set s = 1 and e = n;
-		t.resize(n*4+1);
-		lazy.resize(n*4+1);
-	}
-	void push(int v) {
-	    t[v*2] += lazy[v];
-	    lazy[v*2] += lazy[v];
-	    t[v*2+1] += lazy[v];
-	    lazy[v*2+1] += lazy[v];
-	    lazy[v] = 0;
-	}
-	inline int combine(int x, int y) {
-		return x+y;
-	}
-	inline int initalize(int x) {
-		return x;
-	}
-	void build(int a[], int v, int tl, int tr) {
-	    if (tl == tr) t[v] = initalize(a[tl]);
-	    else {
-	        int tm = (tl + tr) / 2;
-	        build(a, v*2, tl, tm);
-	        build(a, v*2+1, tm+1, tr);
-	        t[v] = combine(t[v*2], t[v*2+1]);
-	    }
-	}
-	void update(int v, int tl, int tr, int l, int r, int add) {
-	    if (l > r) return;
-	    if (l == tl && tr == r) {
-	        t[v] += add, lazy[v] += add;
-	    } else {
-	        push(v);
-	        int tm = (tl + tr) / 2;
-	        update(v*2, tl, tm, l, min(r, tm), add);
-	        update(v*2+1, tm+1, tr, max(l, tm+1), r, add);
-	        t[v] = combine(t[v*2], t[v*2+1]);
-	    }
-	}
-	int query(int v, int tl, int tr, int l, int r) {
-	    if (l > r) return 0;
-	    if (l <= tl && tr <= r) return t[v];
-	    push(v);
-	    int tm = (tl+tr) / 2;
-	    return combine(query(v*2, tl, tm, l, min(r, tm)), 
-	               query(v*2+1, tm+1, tr, max(l, tm+1), r));
-	}
-	int last(int v, int tl, int tr, int l, int r) {
-		if(l > r) return -1;
-	    if(t[v] == 0) return -1;
-	    if (tr == tl) return tl;
-	    push(v);
-	    int tm = (tl + tr) / 2;
-	    int ll = last(v*2+1, tm+1, tr, max(l, tm+1), r);
-	    if(ll != -1) return ll;
-	    return last(v*2, tl, tm, l, min(r, tm));
-	}
-	int first(int v, int tl, int tr, int l, int r) {
-		if(l > r) return e+1;
-	    if(t[v] == 0) return e+1; 
-	    if (tr == tl) return tl;
-	    push(v);
-	    int tm = (tl + tr) / 2;
-	    int ll = first(v*2, tl, tm, l, min(r, tm));
-	    if(ll != e+1) return ll;
-	    return first(v*2+1, tm+1, tr, max(l, tm+1), r);
-	}
-	int query(int l, int r) {
-		if(l > r) return 0;
-		assert(l >= s && r <= e);
-		return query(1, s, e, l, r); // 0 base indexing
-	}
-	int last(int l, int r) {
-		if(l > r) return -1;
-		assert(l >= s && r <= e);
-		return last(1, s, e, l, r); // 0 base indexing
-	}
-	int first(int l, int r) {
-		if(l > r) return e+1;
-		assert(l >= s && r <= e);
-		return first(1, s, e, l, r); // 0 base indexing
-	}
-	void update(int l, int r, int x) {
-		assert(l >= s && r <= e && l <= r);
-		update(1, s, e, l, r, x);// 0 base indexing
-	}
-	void build(int a[]) {
-		build(a, 1, s, e);
-	}
+    std::vector<int> t;
+    std::vector<int> lazy;
+    int s, e;
+    SegLazy(int n) {
+        s = 0, e = n-1; // want start from 1 set s = 1 and e = n;
+        t.resize(n*4+1);
+        lazy.resize(n*4+1);
+    }
+    void push(int v, int l, int r) {
+        int m = (l+r) >> 1;
+        t[v*2] += lazy[v] * (m-l+1);
+        lazy[v*2] += lazy[v];
+        t[v*2+1] += lazy[v] * (r-m);
+        lazy[v*2+1] += lazy[v];
+        lazy[v] = 0;
+    }
+    inline int combine(int x, int y) {
+        return x+y;
+    }
+    inline int initalize(int x) {
+        return x;
+    }
+    void build(int a[], int v, int tl, int tr) {
+        if (tl == tr) t[v] = initalize(a[tl]);
+        else {
+            int tm = (tl + tr) / 2;
+            build(a, v*2, tl, tm);
+            build(a, v*2+1, tm+1, tr);
+            t[v] = combine(t[v*2], t[v*2+1]);
+        }
+    }
+    void update(int v, int tl, int tr, int l, int r, int add) {
+        if (l > r) return;
+        if (l == tl && tr == r) {
+            t[v] += add*(r-l+1), lazy[v] += add;
+        } else {
+            push(v, tl, tr);
+            int tm = (tl + tr) / 2;
+            update(v*2, tl, tm, l, min(r, tm), add);
+            update(v*2+1, tm+1, tr, max(l, tm+1), r, add);
+            t[v] = combine(t[v*2], t[v*2+1]);
+        }
+    }
+    int query(int v, int tl, int tr, int l, int r) {
+        if (l > r) return 0;
+        if (l <= tl && tr <= r) return t[v];
+        push(v, tl, tr);
+        int tm = (tl+tr) / 2;
+        return combine(query(v*2, tl, tm, l, min(r, tm)), 
+                   query(v*2+1, tm+1, tr, max(l, tm+1), r));
+    }
+    int last(int v, int tl, int tr, int l, int r) {
+        if(l > r) return -1;
+        if(t[v] == 0) return -1;
+        if (tr == tl) return tl;
+        push(v, tl, tr);
+        int tm = (tl + tr) / 2;
+        int ll = last(v*2+1, tm+1, tr, max(l, tm+1), r);
+        if(ll != -1) return ll;
+        return last(v*2, tl, tm, l, min(r, tm));
+    }
+    int first(int v, int tl, int tr, int l, int r) {
+        if(l > r) return e+1;
+        if(t[v] <= 0) return e+1; 
+        if (tr == tl) return tl;
+        push(v, tl, tr);
+        int tm = (tl + tr) / 2;
+        int ll = first(v*2, tl, tm, l, min(r, tm));
+        if(ll != e+1) return ll;
+        return first(v*2+1, tm+1, tr, max(l, tm+1), r);
+    }
+    int query(int l, int r) {
+        if(l > r) return 0;
+        assert(l >= s && r <= e);
+        return query(1, s, e, l, r); // 0 base indexing
+    }
+    int last(int l, int r) {
+        if(l > r) return -1;
+        assert(l >= s && r <= e);
+        return last(1, s, e, l, r); // 0 base indexing
+    }
+    int first(int l, int r) {
+        if(l > r) return e+1;
+        assert(l >= s && r <= e);
+        return first(1, s, e, l, r); // 0 base indexing
+    }
+    void update(int l, int r, int x) {
+        assert(l >= s && r <= e && l <= r);
+        update(1, s, e, l, r, x);// 0 base indexing
+    }
+    void build(int a[]) {
+        build(a, 1, s, e);
+    }
 };
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>SegLazy</tabTrigger>
+	<tabTrigger>seglazy</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>

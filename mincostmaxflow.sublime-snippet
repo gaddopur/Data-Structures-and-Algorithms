@@ -1,0 +1,86 @@
+<snippet>
+	<content><![CDATA[
+struct MinCostMaxFlow{
+ 
+    struct Edge{
+        int f;
+        int c;
+        int u;
+        Edge* nex;
+        Edge* rev;
+        Edge(int _u, int _c, int _f, Edge *_nex):
+            f(_f), u(_u), c(_c), nex(_nex){
+        }
+    };
+    vector<Edge*> g;
+ 
+    MinCostMaxFlow(int n){
+        g.resize(n);
+    }
+ 
+    void AddEdge(int v, int u, int c, int f){
+        g[v] = new Edge(u, c, f, g[v]);
+        g[u] = new Edge(v, -c, 0, g[u]);
+        g[v]->rev = g[u];
+        g[u]->rev = g[v];
+    }
+ 
+    pair<int, int> Flow(int src, int sink, int n){
+        int flow = 0;
+        int cost = 0;
+ 
+        while(true){
+ 
+/*-- start of SPFA for finding the shortest path between two vertices with negative edge --*/ 
+            vector<int> dis(n, inf);
+            vector<Edge*> par(n);
+            vector<bool> vis(n, false);
+            vector<int> mn(n, 0);
+            queue<int> q;
+ 
+            q.push(src);
+            dis[src] = 0;
+            vis[src] = 1;
+            mn[src] = inf;
+ 
+            while(!q.empty()){
+                int v = q.front();
+                q.pop();
+                vis[v] = 0;
+                for(Edge* e = g[v]; e ; e = e->nex){
+                    if(e->f <= 0)continue;
+                    if(dis[e->u] > dis[v]+e->c){
+                        dis[e->u] = dis[v]+e->c;
+                        mn[e->u] = min(mn[v], e->f);
+                        par[e->u] = e;
+                        if(!vis[e->u]){
+                            vis[e->u] = 1;
+                            q.push(e->u);
+                        }
+                    }
+                }
+            }
+/*-- end of SPFA for finding the shortest path between two vertices with negative edge --*/ 
+ 
+            if(dis[sink] == inf)
+                break;
+            int curr = sink;
+            int ff = mn[sink];
+            cost += ff*dis[sink];
+            flow += ff;
+            while(curr != src){
+                Edge* e = par[curr];
+                e->f -= ff;
+                e->rev->f += ff;
+                curr = e->rev->u;
+            }
+        }
+        return{flow, cost};
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>mincostmaxflow</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
